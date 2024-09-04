@@ -19,7 +19,6 @@ public class ArgsTest {
     // 任务拆分变成待办列表 尽快让测试通过
     // 简单情况 Single Args
 
-    // TODO bool -l
     static record BoolOption(@Option("l") boolean logging){}
     @Test
     void should_set_bool_option_to_true_if_flag_present() {
@@ -34,10 +33,31 @@ public class ArgsTest {
     }
 
 
-        // TODO int -p 8080
-        // TODO string -d /usr/logs
-    // multi options
-        // TODO  -l -p 8080 -d /usr/logs
+    static record IntOption(@Option("p") int port){}
+    @Test
+    void should_parse_int_as_option_value() {
+        IntOption option = Args.parse(IntOption.class, "-p", "8080");
+        assertEquals(8080,option.port());
+
+    }
+
+
+    static record StrOption(@Option("d") String dir){}
+    @Test
+    void should_parse_string_as_option_value() {
+        StrOption strOption = Args.parse(StrOption.class, "-d", "/usr/logs");
+        assertEquals("/usr/logs",strOption.dir());
+    }
+
+    static record MultiOptions(@Option("l") boolean logging, @Option("p")int port, @Option("d")String dir){}
+    @Test
+    void should_parse_multi_option() {
+        MultiOptions multiOptions = Args.parse(MultiOptions.class,"-l","-p","8080","-d","/usr/logs");
+        assertTrue(multiOptions.logging());
+        assertEquals(8080, multiOptions.port());
+        assertEquals("/usr/logs", multiOptions.dir());
+    }
+
     // bad path
         // TODO -bool -l t
         // TODO -int -p or -p 8080 9090
@@ -53,14 +73,7 @@ public class ArgsTest {
 
 
 
-    @Disabled
-    @Test
-    void should_example_1() {
-        Options options = Args.parse(Options.class,"-l","-p","8080","-d","/usr/logs");
-        assertTrue(options.logging());
-        assertEquals(8080,options.port());
-        assertEquals("/usr/logs",options.dir());
-    }
+
 
     @Disabled
     @Test
@@ -72,7 +85,7 @@ public class ArgsTest {
 
 
 
-    static record Options(@Option("l") boolean logging,@Option("p")int port,@Option("d")String dir){}
+
 
     static record ListOptions(@Option("g") String[] group,@Option("d") int[] decimals){}
 
