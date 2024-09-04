@@ -7,15 +7,27 @@ import org.junit.jupiter.api.Test;
 
 public class ArgsTest {
 
-    // -l -p 8080 -d /usr/logs
+    //完整的测试例子
+        // -l -p 8080 -d /usr/logs
+        // -g this is a list -d 1 2 3
 
-    // [-l] [-p,8080] [-d /usr/logs]
-    // map
-    // index
+    //实现思路
+        // [-l] [-p,8080] [-d /usr/logs]
+        // map
+        // index
 
     // 任务拆分变成待办列表 尽快让测试通过
     // 简单情况 Single Args
-        // TODO bool -l
+
+    // TODO bool -l
+    static record BoolOption(@Option("l") boolean logging){}
+    @Test
+    void should_set_bool_option_to_true_if_flag_present() {
+        BoolOption boolOption = Args.parse(BoolOption.class, "-l");
+        assertTrue(boolOption.logging());
+    }
+
+
         // TODO int -p 8080
         // TODO string -d /usr/logs
     // multi options
@@ -47,7 +59,7 @@ public class ArgsTest {
     @Disabled
     @Test
     void should_example_2() {
-        ListOptions options = Args.parse(ListOptions.class,"-l","-p","8080","-d","/usr/logs");
+        ListOptions options = Args.parse(ListOptions.class,"-g","this","is","a","list","-d","1","2","3");
         assertEquals(new String[]{"this","is","a","list"},options.group());
         assertEquals(new int[]{1,2,3},options.decimals());
     }
