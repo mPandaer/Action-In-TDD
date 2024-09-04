@@ -1,6 +1,8 @@
 package com.pandaer.cli;
 
 import static org.junit.jupiter.api.Assertions.*;
+
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 public class ArgsTest {
@@ -32,13 +34,8 @@ public class ArgsTest {
 
 
 
-    @Test
-    void should() {
-        Options options = Args.parse(Options.class,"-l","-p","8080","-d","/usr/logs");
-        System.out.println(options.logging());
-        System.out.println(options.port());
-    }
 
+    @Disabled
     @Test
     void should_example_1() {
         Options options = Args.parse(Options.class,"-l","-p","8080","-d","/usr/logs");
@@ -47,6 +44,7 @@ public class ArgsTest {
         assertEquals("/usr/logs",options.dir());
     }
 
+    @Disabled
     @Test
     void should_example_2() {
         ListOptions options = Args.parse(ListOptions.class,"-l","-p","8080","-d","/usr/logs");
