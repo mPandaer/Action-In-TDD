@@ -27,6 +27,12 @@ public class ArgsTest {
         assertTrue(boolOption.logging());
     }
 
+    @Test
+    void should_set_bool_option_to_true_if_flag_not_present() {
+        BoolOption boolOption = Args.parse(BoolOption.class);
+        assertFalse(boolOption.logging());
+    }
+
 
         // TODO int -p 8080
         // TODO string -d /usr/logs
