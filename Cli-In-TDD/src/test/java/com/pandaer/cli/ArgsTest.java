@@ -11,6 +11,27 @@ public class ArgsTest {
     // map
     // index
 
+    // 任务拆分变成待办列表 尽快让测试通过
+    // 简单情况 Single Args
+        // TODO bool -l
+        // TODO int -p 8080
+        // TODO string -d /usr/logs
+    // multi options
+        // TODO  -l -p 8080 -d /usr/logs
+    // bad path
+        // TODO -bool -l t
+        // TODO -int -p or -p 8080 9090
+        // TODO -string -d or -d /usr/logs /var/logs
+    // default value
+        // TODO -bool false
+        // TODO -int 0
+        // TODO -string ""
+
+
+
+
+
+
     @Test
     void should() {
         Options options = Args.parse(Options.class,"-l","-p","8080","-d","/usr/logs");
