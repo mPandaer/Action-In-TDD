@@ -27,7 +27,7 @@ public class Args {
         return PARSERS.get(type).parse(argList, "-" + parameter.getAnnotation(Option.class).value());
     }
 
-    private static Map<Class<?>, OptionParser> PARSERS = Map.of(boolean.class, new BooleanOptionParser(), int.class, new IntegerOptionParser(), String.class, new StringOptionParser());
+    private static Map<Class<?>, OptionParser> PARSERS = Map.of(boolean.class, new BooleanOptionParser(), int.class, new SingleValuedOptionParser<>(Integer::parseInt), String.class, new SingleValuedOptionParser<>(String::valueOf));
 
 
 }
