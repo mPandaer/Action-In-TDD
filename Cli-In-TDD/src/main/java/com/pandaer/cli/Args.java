@@ -26,18 +26,36 @@ public class Args {
         Object value = null;
         String flag = "-" + option.value();
         if (parameter.getType() == boolean.class) {
-            value = argList.contains(flag);
+            value = parseBoolean(argList, flag);
         }
 
         if (parameter.getType() == int.class) {
-            int index = argList.indexOf(flag);
-            value = Integer.parseInt(argList.get(index + 1));
+            value = parseInt(argList, flag);
         }
 
         if (parameter.getType() == String.class) {
-            int index = argList.indexOf(flag);
-            value = argList.get(index + 1);
+            value = parseString(argList, flag);
         }
+        return value;
+    }
+
+    private static Object parseString(List<String> argList, String flag) {
+        Object value;
+        int index = argList.indexOf(flag);
+        value = argList.get(index + 1);
+        return value;
+    }
+
+    private static Object parseInt(List<String> argList, String flag) {
+        Object value;
+        int index = argList.indexOf(flag);
+        value = Integer.parseInt(argList.get(index + 1));
+        return value;
+    }
+
+    private static Object parseBoolean(List<String> argList, String flag) {
+        Object value;
+        value = argList.contains(flag);
         return value;
     }
 }
