@@ -5,6 +5,7 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Parameter;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 public class Args {
 
@@ -22,40 +23,11 @@ public class Args {
     }
 
     private static Object parseOptions(Parameter parameter, List<String> argList) {
-        Option option = parameter.getAnnotation(Option.class);
-        Object value = null;
-        String flag = "-" + option.value();
-        if (parameter.getType() == boolean.class) {
-            value = parseBoolean(argList, flag);
-        }
-
-        if (parameter.getType() == int.class) {
-            value = parseInt(argList, flag);
-        }
-
-        if (parameter.getType() == String.class) {
-            value = parseString(argList, flag);
-        }
-        return value;
+        Class<?> type = parameter.getType();
+        return PARSERS.get(type).parse(argList, "-" + parameter.getAnnotation(Option.class).value());
     }
 
-    private static Object parseString(List<String> argList, String flag) {
-        Object value;
-        int index = argList.indexOf(flag);
-        value = argList.get(index + 1);
-        return value;
-    }
+    private static Map<Class<?>, OptionParser> PARSERS = Map.of(boolean.class, new BooleanOptionParser(), int.class, new IntegerOptionParser(), String.class, new StringOptionParser());
 
-    private static Object parseInt(List<String> argList, String flag) {
-        Object value;
-        int index = argList.indexOf(flag);
-        value = Integer.parseInt(argList.get(index + 1));
-        return value;
-    }
 
-    private static Object parseBoolean(List<String> argList, String flag) {
-        Object value;
-        value = argList.contains(flag);
-        return value;
-    }
 }
