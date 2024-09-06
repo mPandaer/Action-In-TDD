@@ -58,18 +58,6 @@ public class ArgsTest {
         assertEquals("/usr/logs", multiOptions.dir());
     }
 
-    // bad path
-        // TODO -bool -l t
-        // TODO -int -p or -p 8080 9090
-        // TODO -string -d or -d /usr/logs /var/logs
-    // default value
-        // TODO -bool false
-        // TODO -int 0
-        // TODO -string ""
-
-
-
-
 
 
 
