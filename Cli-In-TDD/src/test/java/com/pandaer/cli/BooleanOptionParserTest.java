@@ -27,4 +27,10 @@ class BooleanOptionParserTest {
         assertFalse(new BooleanOptionParser().parse(Arrays.asList(), "-l"));
 
     }
+
+    // happy path
+    @Test
+    void should_parse_bool_for_boolean_option() {
+        assertTrue(new BooleanOptionParser().parse(Arrays.asList("-l"), "-l"));
+    }
 }

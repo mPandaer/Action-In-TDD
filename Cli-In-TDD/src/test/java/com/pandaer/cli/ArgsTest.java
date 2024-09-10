@@ -16,39 +16,6 @@ public class ArgsTest {
         // map
         // index
 
-    // 任务拆分变成待办列表 尽快让测试通过
-    // 简单情况 Single Args
-
-    static record BoolOption(@Option("l") boolean logging){}
-    @Test
-    void should_set_bool_option_to_true_if_flag_present() {
-        BoolOption boolOption = Args.parse(BoolOption.class, "-l");
-        assertTrue(boolOption.logging());
-    }
-
-    @Test
-    void should_set_bool_option_to_true_if_flag_not_present() {
-        BoolOption boolOption = Args.parse(BoolOption.class);
-        assertFalse(boolOption.logging());
-    }
-
-
-    static record IntOption(@Option("p") int port){}
-    @Test
-    void should_parse_int_as_option_value() {
-        IntOption option = Args.parse(IntOption.class, "-p", "8080");
-        assertEquals(8080,option.port());
-
-    }
-
-
-    static record StrOption(@Option("d") String dir){}
-    @Test
-    void should_parse_string_as_option_value() {
-        StrOption strOption = Args.parse(StrOption.class, "-d", "/usr/logs");
-        assertEquals("/usr/logs",strOption.dir());
-    }
-
     static record MultiOptions(@Option("l") boolean logging, @Option("p")int port, @Option("d")String dir){}
     @Test
     void should_parse_multi_option() {
@@ -56,8 +23,19 @@ public class ArgsTest {
         assertTrue(multiOptions.logging());
         assertEquals(8080, multiOptions.port());
         assertEquals("/usr/logs", multiOptions.dir());
+
     }
 
+
+    @Test
+    void should_throw_illegal_option_exception_if_without_annotation() {
+        IllegalOptionException e = assertThrows(IllegalOptionException.class,() -> {
+            Args.parse(MultiOptionsWithoutAnnotation.class,"-l","-p","8080","-d","/usr/logs");
+        });
+        assertEquals("port",e.getParameter());
+    }
+
+    static record MultiOptionsWithoutAnnotation(@Option("l") boolean logging, int port, @Option("d")String dir){}
 
 
 
