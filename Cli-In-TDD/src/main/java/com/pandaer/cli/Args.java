@@ -6,7 +6,6 @@ import java.lang.reflect.Parameter;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Function;
 
 public class Args {
 
@@ -34,7 +33,7 @@ public class Args {
         return PARSERS.get(type).parse(argList, "-" + parameter.getAnnotation(Option.class).value());
     }
 
-    private static Map<Class<?>, OptionParser> PARSERS = Map.of(boolean.class, new BooleanOptionParser(), int.class, new SingleValuedOptionParser<>(0,Integer::parseInt), String.class, new SingleValuedOptionParser<>("",String::valueOf));
+    private static Map<Class<?>, OptionParser> PARSERS = Map.of(boolean.class, OptionParsers.bool(), int.class, OptionParsers.unary(0,Integer::parseInt), String.class, OptionParsers.unary("",String::valueOf));
 
 
 }
